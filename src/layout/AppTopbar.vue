@@ -1,8 +1,10 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount, watchEffect } from 'vue';
 import { useLayout } from '../layout/composables/layout';
+import { useAuthStore } from '@/store/authStore'
 
 const { layoutConfig, onMenuToggle, setTheme } = useLayout();
+const authStore = useAuthStore()
 
 const outsideClickListener = ref(null);
 const topbarMenuActive = ref(false);
@@ -76,7 +78,8 @@ const changeTheme = () => {
         </button>
 
 
-        <div class="layout-topbar-menu" :class="topbarMenuClasses">
+        <div class="layout-topbar-menu align-items-center" :class="topbarMenuClasses">
+            {{ authStore.user.name }}
             <button class="p-link layout-topbar-button">
                 <i class="pi pi-user"></i>
                 <span>Profile</span>

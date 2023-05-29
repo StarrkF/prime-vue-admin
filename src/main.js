@@ -1,12 +1,18 @@
-import { createApp } from 'vue';
+import { createApp, markRaw } from 'vue';
 import App from './App.vue';
 import router from './router';
 import './assets/styles.scss';
 import PrimeVue from 'primevue/config';
+import { createPinia } from "pinia";
 
+import Breadcrumb from 'primevue/breadcrumb';
 import Button from 'primevue/button';
 import Calendar from 'primevue/calendar';
+import Card from 'primevue/card';
 import Checkbox from 'primevue/checkbox';
+import DataTable from 'primevue/datatable';
+import Dialog from 'primevue/dialog';
+import Column from 'primevue/column';
 import Dropdown from 'primevue/dropdown';
 import InputSwitch from 'primevue/inputswitch';
 import InputText from 'primevue/inputtext';
@@ -16,16 +22,34 @@ import Listbox from 'primevue/listbox';
 import MultiSelect from 'primevue/multiselect';
 import Rating from 'primevue/rating';
 import RadioButton from 'primevue/radiobutton';
+import Password from 'primevue/password';
 import Textarea from 'primevue/textarea';
+import InlineMessage from 'primevue/inlinemessage';
+import Message from 'primevue/message';
+import Tag from 'primevue/tag';
+import Paginator from 'primevue/paginator';
 
+
+const pinia = createPinia();
 const app = createApp(App);
+
+app.use(pinia);
+
+pinia.use(({ store }) => {
+  store.router = markRaw(router);
+});
 
 app.use(router);
 app.use(PrimeVue, { ripple: true });
 
+app.component('Breadcrumb', Breadcrumb);
 app.component('Button', Button);
 app.component('Calendar', Calendar);
+app.component('Card', Card);
 app.component('Checkbox', Checkbox);
+app.component('Column', Column);
+app.component('DataTable', DataTable);
+app.component('Dialog', Dialog);
 app.component('Dropdown', Dropdown);
 app.component('InputSwitch', InputSwitch);
 app.component('InputText', InputText);
@@ -35,6 +59,12 @@ app.component('Listbox', Listbox);
 app.component('MultiSelect', MultiSelect);
 app.component('Rating', Rating);
 app.component('RadioButton', RadioButton);
+app.component('Password', Password);
 app.component('Textarea', Textarea);
+app.component('InlineMessage', InlineMessage);
+app.component('Message', Message);
+app.component('Tag', Tag);
+app.component('Paginator', Paginator);
+
 
 app.mount('#app');
