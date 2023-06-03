@@ -20,9 +20,14 @@ const router = createRouter({
                     component: () => import('@/views/Components.vue')
                 },
                 {
-                    path: '/menus',
-                    name: 'menus',
+                    path: '/menu',
+                    name: 'menu',
                     component: () => import('@/views/Menus.vue')
+                },
+                {
+                    path: '/page/:id',
+                    name: 'page',
+                    component: () => import('@/views/Page.vue')
                 }
             ],
             meta: { requiresAuth: true },

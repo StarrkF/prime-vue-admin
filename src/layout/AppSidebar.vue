@@ -1,20 +1,48 @@
 <script setup>
-import { ref } from 'vue';
-
+import { ref, onMounted, computed } from 'vue';
 import AppMenuItem from './AppMenuItem.vue';
+import useApi from '@/scripts/api'
 
-const model = ref([
-    {
-        label: 'Home',
-        items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/' }]
-    },
-    {
+const { index } = useApi()
+const pages = ref()
+
+const getPages = () => {
+  index('menu').then((response) => {
+    pages.value = response.data.map((item) => {
+        return {
+            label: item.name,
+            icon: 'pi pi-chevron-right',
+            to: { name: 'page', params: { id: item.id }}
+        };
+    })
+  })
+}
+
+onMounted(() => {
+  getPages()
+})
+
+const model = computed(() => [
+  {
+    label: 'Home',
+    items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/' }]
+  },
+  {
+    label: 'Pages',
+    items: [
+      { label: 'Components', icon: 'pi pi-fw pi-table', to: '/components' },
+      { label: 'Menu', icon: 'pi pi-fw pi-bars', to: '/menu' },
+      {
         label: 'Pages',
-        items: [
-            { label: 'Components', icon: 'pi pi-fw pi-id-card', to: '/components' },
-            { label: 'Menus', icon: 'pi pi-fw pi-id-card', to: '/menus' },
-        ]
-    }
+        icon: 'pi pi-fw pi-globe',
+        items: pages.value
+      }
+    ]
+  },
+  {
+    label: 'Settings',
+    items: [{ label: 'Account', icon: 'pi pi-fw pi-cog', to: '/' }]
+  },
 ]);
 </script>
 

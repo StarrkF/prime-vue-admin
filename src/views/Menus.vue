@@ -19,7 +19,7 @@ const visible = ref(false);
 const deleteDialog = ref(false);
 const loading = ref(false)
 const breadcrumb = ref([
-  { label: 'Menu', to: 'menus' },
+  { label: 'Menu', to: 'menu' },
 ]);
 
 
@@ -130,8 +130,8 @@ onMounted(() => {
           tableClass="editable-cells-table" editMode="row" dataKey="id">
           <Column selectionMode="multiple" style="width: 3rem"></Column>
           <Column style="width: 3rem">
-            <template #body>
-              <router-link to="/"><i class="pi text-lg pi-link" style="font-size: 2rem"></i></router-link>
+            <template #body="{ data }">
+              <router-link :to="{ name: 'page', params: { id: data.id}}"><i class="pi text-lg pi-link" style="font-size: 2rem"></i></router-link>
             </template>
           </Column>
           <Column field="id" sortable header="ID"></Column>
