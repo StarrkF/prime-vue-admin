@@ -14,7 +14,7 @@ const emits = defineEmits(['update:showDialog']);
 </script>
 
 <template>
-  <Dialog :visible="showDialog" :style="{ width: '450px' }" header="Confirm" :modal="true">
+  <Dialog :visible="showDialog"  @update:visible="emits('update:showDialog', false)" :style="{ width: '450px' }" header="Confirm" :modal="true">
     <div class="confirmation-content">
       <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
       <span><slot></slot></span>
