@@ -22,12 +22,12 @@ const router = createRouter({
                 {
                     path: '/menu',
                     name: 'menu',
-                    component: () => import('@/views/Menu/Index.vue')
+                    component: () => import('@/views/Menus.vue')
                 },
                 {
                     path: '/page/:id',
                     name: 'page',
-                    component: () => import('@/views/Pages/Index.vue')
+                    component: () => import('@/views/Page.vue')
                 }
             ],
             meta: { requiresAuth: true },
