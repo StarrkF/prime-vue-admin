@@ -29,7 +29,6 @@ const router = createRouter({
                     name: 'page',
                     component: () => import('@/views/Pages/Index.vue')
                 }
-                }
             ],
             meta: { requiresAuth: true },
         },
