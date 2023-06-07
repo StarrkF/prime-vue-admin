@@ -17,17 +17,17 @@ const router = createRouter({
                 {
                     path: '/components',
                     name: 'components',
-                    component: () => import('@/views/Components.vue')
+                    component: () => import('@/views/Pages/Components.vue')
                 },
                 {
                     path: '/menu',
                     name: 'menu',
-                    component: () => import('@/views/Menus.vue')
+                    component: () => import('@/views/Pages/Menu.vue')
                 },
                 {
-                    path: '/page/:id',
-                    name: 'page',
-                    component: () => import('@/views/Page.vue')
+                    path: '/post/:id',
+                    name: 'posts',
+                    component: () => import('@/views/Pages/Posts.vue')
                 }
             ],
             meta: { requiresAuth: true },

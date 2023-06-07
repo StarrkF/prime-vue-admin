@@ -131,7 +131,7 @@ onMounted(() => {
           <Column selectionMode="multiple" style="width: 3rem"></Column>
           <Column style="width: 3rem">
             <template #body="{ data }">
-              <router-link :to="{ name: 'page', params: { id: data.id}}"><i class="pi text-lg pi-link" style="font-size: 2rem"></i></router-link>
+              <router-link :to="{ name: 'posts', params: { id: data.id}}"><i class="pi text-lg pi-link" style="font-size: 2rem"></i></router-link>
             </template>
           </Column>
           <Column field="id" sortable header="ID"></Column>

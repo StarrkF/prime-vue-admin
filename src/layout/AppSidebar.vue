@@ -4,22 +4,22 @@ import AppMenuItem from './AppMenuItem.vue';
 import useApi from '@/scripts/api'
 
 const { index } = useApi()
-const pages = ref()
+const posts = ref()
 
-const getPages = () => {
+const getPosts = () => {
   index('menu').then((response) => {
-    pages.value = response.data.map((item) => {
+    posts.value = response.data.map((item) => {
         return {
             label: item.name,
             icon: 'pi pi-chevron-right',
-            to: { name: 'page', params: { id: item.id }}
+            to: { name: 'posts', params: { id: item.id }}
         };
     })
   })
 }
 
 onMounted(() => {
-  getPages()
+  getPosts()
 })
 
 const model = computed(() => [
@@ -33,9 +33,9 @@ const model = computed(() => [
       { label: 'Components', icon: 'pi pi-fw pi-table', to: '/components' },
       { label: 'Menu', icon: 'pi pi-fw pi-bars', to: '/menu' },
       {
-        label: 'Pages',
+        label: 'Posts',
         icon: 'pi pi-fw pi-globe',
-        items: pages.value
+        items: posts.value
       }
     ]
   },
