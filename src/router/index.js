@@ -29,7 +29,6 @@ const router = createRouter({
                     name: 'page',
                     component: () => import('@/views/Page.vue')
                 }
-                }
             ],
             meta: { requiresAuth: true },
         },
