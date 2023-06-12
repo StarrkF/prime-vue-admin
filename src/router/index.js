@@ -25,10 +25,16 @@ const router = createRouter({
                     component: () => import('@/views/Pages/Menu.vue')
                 },
                 {
-                    path: '/post/:id',
+                    path: '/post/:menu_id',
                     name: 'posts',
                     component: () => import('@/views/Pages/Posts.vue')
-                }
+                },
+                {
+                    path: '/post-form/:menu_id/:id?',
+                    name: 'post_form',
+                    component: () => import('@/views/Pages/PostForm.vue')
+                },
+
             ],
             meta: { requiresAuth: true },
         },
@@ -38,7 +44,7 @@ const router = createRouter({
             component: () => import('@/views/Login.vue'),
             meta: {
                 hideNavbar: true,
-               }
+            }
         },
 
     ]

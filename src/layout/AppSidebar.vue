@@ -12,7 +12,7 @@ const getPosts = () => {
         return {
             label: item.name,
             icon: 'pi pi-chevron-right',
-            to: { name: 'posts', params: { id: item.id }}
+            to: { name: 'posts', params: { menu_id: item.id }}
         };
     })
   })

@@ -18,9 +18,6 @@ const successMessage = ref(false)
 const visible = ref(false);
 const deleteDialog = ref(false);
 const loading = ref(false)
-const breadcrumb = ref([
-  { label: 'Menu', to: 'menu' },
-]);
 
 
 const getMenus = () => {
@@ -101,7 +98,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <AppBreadcrumb :items="breadcrumb" />
+  <AppBreadcrumb :items="[{ label: 'Menu', to: 'menu' },]" />
   <h2>Menus</h2>
   <div class="flex flex-wrap justify-content-between gap-4">
     <Card class="col-12">
@@ -123,7 +120,7 @@ onMounted(() => {
         <Message v-if="errors && !visible" v-for="error in errors" severity="error">
           {{ error[0] }}
         </Message>
-        <Message v-if="successMessage" severity="success">
+        <Message v-if="successMessage" severity="success">n
           Success!
         </Message>
         <DataTable :loading="loading" lazy @page="onPage" v-model:selection="selectedMenus"  paginator  :rowsPerPageOptions="[5, 10, 20, 50]" :totalRecords="meta.total" :rows="meta.per_page" scrollable scrollHeight="50vh"   @sort="onSort" :customSort="true" v-model:editingRows="editingRows" :value="menus" @row-edit-save="onRowEditSave"

@@ -29,9 +29,14 @@ export default function useApi() {
 
   }
 
-  const store = async (endpoint, data) => {
+  const store = async (endpoint, data, config = false) => {
     errors.value = ''
-    return await axios.post(endpoint, data)
+    const fileConfig = {
+      headers: {
+        'content-type': 'multipart/form-data'
+      }
+    }
+    return await axios.post(endpoint, data, config ? fileConfig : '')
       .then(function (response) {
         return response.data
       })
