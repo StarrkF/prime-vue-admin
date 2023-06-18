@@ -26,6 +26,8 @@ import Rating from 'primevue/rating';
 import RadioButton from 'primevue/radiobutton';
 import Password from 'primevue/password';
 import Textarea from 'primevue/textarea';
+import Toast from 'primevue/toast';
+import ToastService from 'primevue/toastservice';
 import InlineMessage from 'primevue/inlinemessage';
 import Message from 'primevue/message';
 import Tag from 'primevue/tag';
@@ -43,6 +45,7 @@ pinia.use(({ store }) => {
 
 app.use(router);
 app.use(PrimeVue, { ripple: true });
+app.use(ToastService);
 
 app.component('Breadcrumb', Breadcrumb);
 app.component('Button', Button);
@@ -65,6 +68,7 @@ app.component('Rating', Rating);
 app.component('RadioButton', RadioButton);
 app.component('Password', Password);
 app.component('Textarea', Textarea);
+app.component('Toast', Toast);
 app.component('InlineMessage', InlineMessage);
 app.component('Message', Message);
 app.component('Tag', Tag);

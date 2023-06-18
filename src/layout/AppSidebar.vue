@@ -1,26 +1,43 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watchEffect } from 'vue';
 import AppMenuItem from './AppMenuItem.vue';
 import useApi from '@/scripts/api'
 
 const { index } = useApi()
 const posts = ref()
+const postData = ref({})
 
 const getPosts = () => {
   index('menu').then((response) => {
-    posts.value = response.data.map((item) => {
-        return {
-            label: item.name,
-            icon: 'pi pi-chevron-right',
-            to: { name: 'posts', params: { menu_id: item.id }}
-        };
-    })
+    posts.value = response.data
+    getCategories()
   })
 }
 
+const getCategories = () => {
+  index('categories').then((response) => {
+    postData.value = response.data.map((category)=> {
+      return {
+        label: category.name,
+        icon: 'pi pi-th-large',
+        items: posts.value.filter((post) => post.category.id === category.id)
+        .map((post) => ({
+          label: post.name,
+          icon: 'pi pi-chevron-right',
+          to: { name: 'posts', params: { menu_id: post.id }}
+        })),
+      }
+    });
+  });
+};
+
 onMounted(() => {
-  getPosts()
-})
+  watchEffect(() => {
+    getPosts()
+  });
+});
+
+
 
 const model = computed(() => [
   {
@@ -35,7 +52,7 @@ const model = computed(() => [
       {
         label: 'Posts',
         icon: 'pi pi-fw pi-globe',
-        items: posts.value
+        items: postData.value
       }
     ]
   },

@@ -13,7 +13,7 @@ const postId = route.params.id ?? 0;
 const menuId = route.params.menu_id;
 const menuRoute = { name: 'posts', params: { menu_id: menuId } };
 const post = ref({});
-// const image = ref();
+const image = ref();
 
 const getPost = () => {
   show('post', postId)
@@ -23,23 +23,25 @@ const getPost = () => {
 }
 
 const storePost = () => {
-
-  // const formData = new FormData();
-  // formData.append('file', image.value);
-
-  store('post', post.value)
+  console.log(post.value);
+  const formData = new FormData();
+  formData.append('cover_image', image.value);
+  Object.entries(post.value).map(([key, value]) => {
+  formData.append(key, value);
+  });
+  store('post', formData, true)
     .then((response) => {
-      if (response) {w
-        menu.value = {}
+      if (response) {
+        post.value = {}
         router.push(menuRoute)
       }
     })
 }
 
-// const onSelectedFile = (event) => {
-//   image.value = event.files[0]
-//   console.log( image.value)
-// }
+const onSelectedFile = (event) => {
+  image.value = event.files[0]
+  console.log( image.value)
+}
 
 
 onMounted(() => {
@@ -82,13 +84,13 @@ onMounted(() => {
             class="w-full" />
         </div>
 
-        <!-- <div class="mb-5">
+        <div class="mb-5">
           <FileUpload @select="onSelectedFile" accept="image/*" :maxFileSize="2000000">
             <template #empty>
               <p>Drag and drop Image to here to upload.</p>
             </template>
           </FileUpload>
-        </div> -->
+        </div>
 
         <div class="flex justify-content-between">
           <RouterLink :to="menuRoute">
