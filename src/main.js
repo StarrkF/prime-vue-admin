@@ -19,6 +19,7 @@ import FileUpload from 'primevue/fileupload';
 import InputSwitch from 'primevue/inputswitch';
 import InputText from 'primevue/inputtext';
 import InputNumber from 'primevue/inputnumber';
+import Image from 'primevue/image';
 import Knob from 'primevue/knob';
 import Listbox from 'primevue/listbox';
 import MultiSelect from 'primevue/multiselect';
@@ -32,6 +33,7 @@ import InlineMessage from 'primevue/inlinemessage';
 import Message from 'primevue/message';
 import Tag from 'primevue/tag';
 import Paginator from 'primevue/paginator';
+import ProgressSpinner from 'primevue/progressspinner';
 
 
 const pinia = createPinia();
@@ -61,6 +63,7 @@ app.component('FileUpload', FileUpload);
 app.component('InputSwitch', InputSwitch);
 app.component('InputText', InputText);
 app.component('InputNumber', InputNumber);
+app.component('Image', Image);
 app.component('Knob', Knob);
 app.component('Listbox', Listbox);
 app.component('MultiSelect', MultiSelect);
@@ -73,6 +76,8 @@ app.component('InlineMessage', InlineMessage);
 app.component('Message', Message);
 app.component('Tag', Tag);
 app.component('Paginator', Paginator);
+app.component('ProgressSpinner', ProgressSpinner);
+
 
 
 app.mount('#app');

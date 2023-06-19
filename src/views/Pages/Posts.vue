@@ -74,11 +74,13 @@ onMounted(() => {
 
             <template #content>
                 <Toast />
-                <DataTable scrollHeight="50vh" :value="posts" :rowClass="rowClass"  v-model:selection="selectedPost" tableClass="editable-cells-table">
+                <DataTable scrollHeight="65vh" :value="posts" :rowClass="rowClass"  v-model:selection="selectedPost" tableClass="editable-cells-table">
                     <Column selectionMode="multiple" style="width: 3rem"></Column>
                     <Column header="Image">
                         <template #body="slotProps">
-                            <img :src="slotProps.data.cover_image" :alt="slotProps.data.title" class="w-6rem h-6rem shadow-4 border-round border-2 border-bluegray-200" />
+                            <div class="w-8rem h-8rem">
+                                <img :src="slotProps.data.cover_image" :alt="slotProps.data.title" class="w-full h-full shadow-4 border-round border-2 border-bluegray-200" style="object-fit: cover; object-position: center;" />
+                            </div>
                         </template>
                     </Column>
                     <Column field="weight" header="Weight" />
@@ -91,7 +93,9 @@ onMounted(() => {
                     </Column>
                     <Column header="Action">
                         <template #body="slotProps">
-                            <Button icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" @click="" />
+                            <RouterLink :to="{ name: 'post_form', params: { menu_id: route.params.id, id: slotProps.data.id } }">
+                                <Button icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" />
+                            </RouterLink>
                             <Button icon="pi pi-trash" class="p-button-rounded p-button-danger mt-2" @click="" />
                         </template>
                     </Column>
