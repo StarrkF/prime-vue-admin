@@ -49,8 +49,8 @@ const storeMenu = () => {
 }
 
 const deleteMenus = () => {
-  selectedMenus.value.map(item => {
-    destroy('menu', item.id)
+  selectedMenus.value.map(async item => {
+    await destroy('menu', item.id)
   })
   selectedMenus.value = null
   getMenus()

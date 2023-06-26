@@ -39,7 +39,7 @@ const storePost = () => {
 }
 
 const updatePost = () => {
-    const postData = createPostData()
+    const postData = createPostData(true)
     if (image.value) {
         laravelFixedUpdate('post', post.value.id, postData, image.value ? true : false)
         .then((response) => {
@@ -60,11 +60,11 @@ const updatePost = () => {
 
 }
 
-const createPostData = () => {
+const createPostData = (is_update = false) => {
     post.value.menu_id = menuId
     if (image.value) {
         const formData = new FormData();
-        formData.append('_method', 'put');
+        is_update ? formData.append('_method', 'put') : ''
         formData.append('cover_image', image.value);
 
         for (const [key, value] of Object.entries(post.value)) {

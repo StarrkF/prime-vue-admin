@@ -2,8 +2,10 @@
 import { ref, onMounted, watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
 import AppBreadcrumb from '@/components/AppBreadcrumb.vue';
+import AppDialog from '@/components/AppDialog.vue';
 import useApi from '@/scripts/api'
 import { useToast } from 'primevue/usetoast';
+
 
 const toast = useToast();
 const { index, show, store, update, destroy, errors } = useApi()
@@ -12,10 +14,10 @@ const route = useRoute();
 
 const posts = ref([])
 const menu = ref([]);
-const selectedPost = ref({})
+const selectedPost = ref()
 const params = ref({})
 const meta = ref({})
-
+const deleteDialog = ref(false)
 const loading = ref(true)
 
 const getPosts = () => {
@@ -44,6 +46,16 @@ const updateIsActive = (id, data) => {
     })
 }
 
+const deletePosts = () => {
+    selectedPost.value.map(async item => {
+    await destroy('post', item.id)
+  })
+  selectedPost.value = null
+  getPosts()
+  deleteDialog.value = false
+  toast.add({ severity: 'success', summary: 'Success Message', detail: 'Selected Posts deleted successfuly', life: 5000 });
+}
+
 const rowClass = (data) => {
     return [{ 'bg-gray-300': data.is_active == false }];
 };
@@ -52,6 +64,7 @@ const rowClass = (data) => {
 onMounted(() => {
     watchEffect(() => {
         params.value.byMenu = route.params.menu_id;
+        selectedPost.value = null
         getPosts();
         getMenu();
     });
@@ -67,9 +80,14 @@ onMounted(() => {
         <Card class="col-12">
 
             <template #title>
-                <RouterLink :to="{ name: 'post_form', params: { menu_id: route.params.id } }">
-                    <Button label="Add" icon="pi pi-plus" severity="success" />
-                </RouterLink>
+                <div class="flex align-content-center justify-content-between">
+                    <div class="flex gap-2">
+                        <RouterLink :to="{ name: 'post_form', params: { menu_id: route.params.id } }">
+                        <Button label="Add" icon="pi pi-plus" severity="success" />
+                        </RouterLink>
+                        <Button label="Delete" icon="pi pi-trash" :disabled="!selectedPost?.length" @click="deleteDialog = true" severity="danger" />
+                    </div>
+                </div>
             </template>
 
             <template #content>
@@ -96,7 +114,6 @@ onMounted(() => {
                             <RouterLink :to="{ name: 'post_form', params: { menu_id: route.params.id, id: slotProps.data.id } }">
                                 <Button icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" />
                             </RouterLink>
-                            <Button icon="pi pi-trash" class="p-button-rounded p-button-danger mt-2" @click="" />
                         </template>
                     </Column>
                 </DataTable>
@@ -104,4 +121,9 @@ onMounted(() => {
 
         </Card>
     </div>
+      <!-- Delete Warning Dialog -->
+  <AppDialog v-model:showDialog="deleteDialog"  :eventFunction="deletePosts">
+    Are you sure you want to delete?
+  </AppDialog>
+
 </template>
