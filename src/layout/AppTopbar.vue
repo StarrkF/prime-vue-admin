@@ -2,6 +2,8 @@
 import { ref, computed, onMounted, onBeforeUnmount, watchEffect } from 'vue';
 import { useLayout } from '../layout/composables/layout';
 import { useAuthStore } from '@/store/authStore'
+import logoWhite from '/layout/images/logo-white.svg'
+import logoDark from '/layout/images/logo-dark.svg'
 
 const { layoutConfig, onMenuToggle, setTheme } = useLayout();
 const authStore = useAuthStore()
@@ -21,10 +23,6 @@ watchEffect(() => {
 
 onBeforeUnmount(() => {
     unbindOutsideClickListener();
-});
-
-const logoUrl = computed(() => {
-    return `layout/images/${layoutConfig.darkTheme.value ? 'logo-white' : 'logo-dark'}.svg`;
 });
 
 
@@ -69,7 +67,7 @@ const changeTheme = () => {
 <template>
     <div class="layout-topbar">
         <router-link to="/" class="layout-topbar-logo">
-            <img :src="logoUrl" alt="logo" />
+            <img :src="(layoutConfig.darkTheme.value || false ? logoWhite : logoDark)" alt="logo" />
             <span>PrimeVue Admin</span>
         </router-link>
 

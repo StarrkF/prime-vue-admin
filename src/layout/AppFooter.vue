@@ -1,18 +1,14 @@
 <script setup>
 import { useLayout } from '@/layout/composables/layout';
-import { computed } from 'vue';
+import logoWhite from '/layout/images/logo-white.svg'
+import logoDark from '/layout/images/logo-dark.svg'
 
 const { layoutConfig } = useLayout();
-
-const logoUrl = computed(() => {
-     const isDarkTheme = layoutConfig.darkTheme.value || false;
-    return `layout/images/${isDarkTheme ? 'logo-white' : 'logo-dark'}.svg`;
-});
 </script>
 
 <template>
     <div class="layout-footer">
-        <img :src="logoUrl" alt="Logo" height="20" class="mr-2" />
+        <img :src="(layoutConfig.darkTheme.value || false ? logoWhite : logoDark)" alt="Logo" height="20" class="mr-2" />
         by
         <span class="font-medium ml-2">PrimeVue</span>
     </div>
