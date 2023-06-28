@@ -32,6 +32,7 @@ import ToastService from 'primevue/toastservice';
 import InlineMessage from 'primevue/inlinemessage';
 import Message from 'primevue/message';
 import Tag from 'primevue/tag';
+import TieredMenu from 'primevue/tieredmenu';
 import Paginator from 'primevue/paginator';
 import ProgressSpinner from 'primevue/progressspinner';
 
@@ -75,6 +76,7 @@ app.component('Toast', Toast);
 app.component('InlineMessage', InlineMessage);
 app.component('Message', Message);
 app.component('Tag', Tag);
+app.component('TieredMenu', TieredMenu);
 app.component('Paginator', Paginator);
 app.component('ProgressSpinner', ProgressSpinner);
 

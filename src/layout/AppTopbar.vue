@@ -7,6 +7,27 @@ import logoDark from '/layout/images/logo-dark.svg'
 
 const { layoutConfig, onMenuToggle, setTheme } = useLayout();
 const authStore = useAuthStore()
+const menu = ref();
+
+const logout = () => {
+      authStore.handleLogout()
+};
+
+const items = ref([
+    {
+        label: 'Edit (WIP)',
+        icon: 'pi pi-fw pi-user-edit'
+    },
+    {
+        label: 'Logout',
+        icon: 'pi pi-fw pi-power-off',
+        command: logout,
+    }
+]);
+
+const profileToggle = (event) => {
+    menu.value.toggle(event);
+};
 
 const outsideClickListener = ref(null);
 const topbarMenuActive = ref(false);
@@ -77,11 +98,15 @@ const changeTheme = () => {
 
 
         <div class="layout-topbar-menu align-items-center" :class="topbarMenuClasses">
-            {{ authStore.user.name }}
-            <button class="p-link layout-topbar-button">
+            <div class="cursor-pointer" @click="profileToggle" aria-haspopup="true" aria-controls="overlay_tmenu">
+                {{ authStore.user.name }}
+            </div>
+
+            <button class="p-link layout-topbar-button"  @click="profileToggle" aria-haspopup="true" aria-controls="overlay_tmenu">
                 <i class="pi pi-user"></i>
                 <span>Profile</span>
             </button>
+            <TieredMenu ref="menu" id="overlay_tmenu" :model="items" popup />
             <button class="p-link  layout-topbar-button" @click="changeTheme">
                 <i :class="themeIcon"></i>
             </button>
