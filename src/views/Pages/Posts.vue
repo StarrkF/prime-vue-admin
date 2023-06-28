@@ -19,6 +19,7 @@ const params = ref({})
 const meta = ref({})
 const deleteDialog = ref(false)
 const loading = ref(true)
+const search = ref()
 
 const getPosts = () => {
     loading.value = true
@@ -56,10 +57,23 @@ const deletePosts = () => {
   toast.add({ severity: 'success', summary: 'Success Message', detail: 'Selected Posts deleted successfuly', life: 5000 });
 }
 
-const rowClass = (data) => {
-    return [{ 'bg-gray-300': data.is_active == false }];
-};
 
+const onSort = (event) => {
+  params.value.orderBy = event.sortField
+  params.value.orderType = event.sortOrder == 1 ? 'asc' : 'desc'
+  getPosts()
+}
+
+const onPage = (event) => {
+  params.value.page = ++event.page
+  params.value.perPage = event.rows
+  getPosts()
+}
+
+const onSearch = () => {
+  params.value.search = search.value
+  getPosts()
+}
 
 onMounted(() => {
     watchEffect(() => {
@@ -87,12 +101,16 @@ onMounted(() => {
                         </RouterLink>
                         <Button label="Delete" icon="pi pi-trash" :disabled="!selectedPost?.length" @click="deleteDialog = true" severity="danger" />
                     </div>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search cursor-pointer"  @click="onSearch" />
+                        <InputText v-model="search" placeholder="Search & type enter" @keyup.enter="onSearch" />
+                    </span>
                 </div>
             </template>
 
             <template #content>
                 <Toast />
-                <DataTable scrollHeight="65vh" :value="posts" :rowClass="rowClass"  v-model:selection="selectedPost" tableClass="editable-cells-table">
+                <DataTable scrollHeight="65vh" lazy @page="onPage" :value="posts"  v-model:selection="selectedPost"  @sort="onSort" tableClass="editable-cells-table">
                     <Column selectionMode="multiple" style="width: 3rem"></Column>
                     <Column header="Image">
                         <template #body="slotProps">
@@ -101,10 +119,10 @@ onMounted(() => {
                             </div>
                         </template>
                     </Column>
-                    <Column field="weight" header="Weight" />
-                    <Column field="title" header="Title" />
+                    <Column field="weight" sortable header="Weight" />
+                    <Column field="title" sortable header="Title" />
                     <Column field="summary" header="Summary" />
-                    <Column header="Status">
+                    <Column header="Status" field="is_active" sortable>
                         <template #body="slotProps">
                             <InputSwitch v-model="slotProps.data.is_active" @change="updateIsActive(slotProps.data.id, slotProps.data.is_active)" />
                         </template>
@@ -122,7 +140,7 @@ onMounted(() => {
         </Card>
     </div>
       <!-- Delete Warning Dialog -->
-  <AppDialog v-model:showDialog="deleteDialog"  :eventFunction="deletePosts">
+  <AppDialog v-model:showDialog="deleteDialog" :eventFunction="deletePosts">
     Are you sure you want to delete?
   </AppDialog>
 

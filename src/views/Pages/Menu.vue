@@ -194,7 +194,7 @@ onMounted(() => {
   </Dialog>
 
   <!-- Delete Warning Dialog -->
-  <AppDialog v-model:showDialog="deleteDialog"  :eventFunction="deleteMenus">
+  <AppDialog v-model:showDialog="deleteDialog" :eventFunction="deleteMenus">
     Are you sure you want to delete?
   </AppDialog>
 </template>
