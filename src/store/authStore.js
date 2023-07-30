@@ -49,7 +49,7 @@ export const useAuthStore = defineStore("auth", {
       await axios.post("/register", data)
         .then((response) => {
           localStorage.setItem('accessToken', response.data.token)
-          this.router.push("/")
+          this.router.push("/login")
         })
         .catch((error) => {
           if (error.response.status === 422) {

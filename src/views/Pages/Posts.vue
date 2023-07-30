@@ -119,7 +119,7 @@ onMounted(() => {
                             </div>
                         </template>
                     </Column>
-                    <Column field="weight" sortable header="Weight" />
+                    <Column field="weight" class="text-center" sortable header="Weight" />
                     <Column field="title" sortable header="Title" />
                     <Column field="summary" header="Summary" />
                     <Column header="Status" field="is_active" sortable>

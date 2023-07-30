@@ -24,7 +24,7 @@ const form = ref({})
                             <InputText id="email1" type="text" placeholder="Email address" class="w-full  mb-5" style="padding: 1rem" v-model="form.email" />
 
                             <label for="password1" class="block text-900 font-medium text-xl mb-2">Password</label>
-                            <InputText id="password1" type="password" placeholder="Email address" class="w-full mb-5" style="padding: 1rem" v-model="form.password" />
+                            <InputText id="password1" type="password" placeholder="Password" class="w-full mb-5" style="padding: 1rem" v-model="form.password" />
 
                             <Button type="submit" label="Sign In" class="w-full p-3 text-xl"></Button>
                         </div>

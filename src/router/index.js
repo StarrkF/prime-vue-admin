@@ -46,6 +46,14 @@ const router = createRouter({
                 hideNavbar: true,
             }
         },
+        {
+            path: '/register',
+            name: 'register',
+            component: () => import('@/views/Register.vue'),
+            meta: {
+                hideNavbar: true,
+            }
+        },
 
     ]
 });

@@ -116,6 +116,19 @@ onMounted(() => {
                     <AppTextInput label="Summary" v-model="post.summary" :error="errors.summary" class="w-full" />
                 </div>
 
+                <div class="mb-5">
+                    <AppTextInput type="number" label="Weight" v-model="post.weight" :error="errors.weight" class="w-full" />
+                </div>
+
+                <div class="mb-5">
+                    <AppTextInput label="Seo Title" v-model="post.seo_title" :error="errors.seo_title" class="w-full" />
+                </div>
+
+                <div class="mb-5">
+                    <AppTextInput label="Seo Description" v-model="post.seo_description" :error="errors.seo_description"
+                        class="w-full" />
+                </div>
+
                 <div class="mb-5 flex flex-column gap-2">
                     <label class="font-semibold">Content</label>
                     <InlineMessage class="mt-2" v-if="errors.content">{{ errors.content[0] }}</InlineMessage>
@@ -127,14 +140,6 @@ onMounted(() => {
                         class="w-full" />
                 </div>
 
-                <div class="mb-5">
-                    <AppTextInput label="Seo Title" v-model="post.seo_title" :error="errors.seo_title" class="w-full" />
-                </div>
-
-                <div class="mb-5">
-                    <AppTextInput label="Seo Description" v-model="post.seo_description" :error="errors.seo_description"
-                        class="w-full" />
-                </div>
 
                 <div class="mb-5">
                     <AppImageUpload label="Cover Image" :selectedFunction="onSelectedFile" :imageSrc="post.cover_image" />
