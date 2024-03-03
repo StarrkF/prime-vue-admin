@@ -3,6 +3,9 @@ import { ref, onMounted } from 'vue';
 import AppBreadcrumb from '@/components/AppBreadcrumb.vue';
 import AppDialog from '@/components/AppDialog.vue';
 import useApi from '@/scripts/api'
+import {useToast} from "primevue/usetoast";
+
+const toast = useToast();
 const { index, store, update, destroy, errors } = useApi()
 
 const categories = ref({})
@@ -14,7 +17,6 @@ const params = ref({});
 const meta = ref({})
 const selectedMenus = ref()
 const search = ref()
-const successMessage = ref(false)
 const visible = ref(false);
 const deleteDialog = ref(false);
 const loading = ref(false)
@@ -40,7 +42,7 @@ const storeMenu = () => {
     .then((response) => {
       if (response) {
         visible.value = false
-        successMessage.value = true
+        toast.add({ severity: 'success', summary: 'Success Message', detail: 'Content created successfuly', life: 5000 });
         menu.value = {}
         getMenus()
       }
@@ -48,25 +50,32 @@ const storeMenu = () => {
     })
 }
 
-const deleteMenus = () => {
-  selectedMenus.value.map(async item => {
-    await destroy('menu', item.id)
-  })
-  selectedMenus.value = null
-  getMenus()
-  deleteDialog.value = false
-  successMessage.value = true
+const deleteMenus = async () => {
+  try {
+    for (const item of selectedMenus.value) {
+      await destroy('menu', item.id);
+    }
+
+    selectedMenus.value = null;
+    deleteDialog.value = false;
+    getMenus();
+    toast.add({severity: 'success', summary: 'Success Message', detail: 'Content deleted successfully', life: 5000});
+  } catch (error) {
+    console.error(error);
+    toast.add({severity: 'error', summary: 'Error Message', detail: error.message, life: 5000});
+  }
 }
 
 const onRowEditSave = (event) => {
   let { newData } = event;
-
-  editMenu.value = newData;
-
+  editMenu.value = {
+    ...newData,
+    category_id: newData.category.id,
+  };
   update('menu', editMenu.value.id, editMenu.value)
     .then((response) => {
       if (response) {
-        successMessage.value = true
+        toast.add({ severity: 'success', summary: 'Success Message', detail: 'Content update successfuly', life: 5000 });
         getMenus()
       }
     })
@@ -111,7 +120,7 @@ onMounted(() => {
           </div>
           <span class="p-input-icon-left">
               <i class="pi pi-search" />
-              <InputText v-model.lazy="search" placeholder="Search name" @input="onSearch" />
+              <InputText v-model.lazy="search" placeholder="Search name" @change="onSearch" />
           </span>
         </div>
       </template>
@@ -120,9 +129,7 @@ onMounted(() => {
         <Message v-if="errors && !visible" v-for="error in errors" severity="error">
           {{ error[0] }}
         </Message>
-        <Message v-if="successMessage" severity="success">n
-          Success!
-        </Message>
+        <Toast />
         <DataTable :loading="loading" lazy @page="onPage" v-model:selection="selectedMenus"  paginator  :rowsPerPageOptions="[5, 10, 20, 50]" :totalRecords="meta.total" :rows="meta.per_page" scrollable scrollHeight="50vh"   @sort="onSort" :customSort="true" v-model:editingRows="editingRows" :value="menus" @row-edit-save="onRowEditSave"
           tableClass="editable-cells-table" editMode="row" dataKey="id">
           <Column selectionMode="multiple" style="width: 3rem"></Column>
@@ -134,8 +141,7 @@ onMounted(() => {
           <Column field="id" sortable header="ID"></Column>
           <Column field="category.name" header="Category">
             <template #editor="{ data }">
-              <Dropdown v-model="data['category_id']" :options="categories" optionLabel="name" optionValue="id"
-                placeholder="Select Category">
+              <Dropdown v-model="data.category.id" :options="categories" optionLabel="name" optionValue="id" placeholder="Select Category">
               </Dropdown>
             </template>
           </Column>
